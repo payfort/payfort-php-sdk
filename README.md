@@ -8,9 +8,7 @@ Install
 
 1. Go to server document root
 
-2. Past payfortIntegration folder to the previous path
-
-3. open payfortIntegration/PayfortIntegration.php and fill required variables with you credintial
+2. checkout the project to document root
 
 Notes
 =====
@@ -25,4 +23,4 @@ Notes
 	* SADAD 
 	* NAPS 
 
-
+	

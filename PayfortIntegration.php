@@ -56,7 +56,7 @@ class PayfortIntegration
      * @var string  project root folder
      * change it if the project is not on root folder.
      */
-    public $projectUrlPath     = '/payfortIntegration'; 
+    public $projectUrlPath     = '/payfort-php-sdk'; 
     public function __construct()
     {
         
@@ -494,7 +494,7 @@ class PayfortIntegration
      */
     public function log($messages) {
         $messages = "========================================================\n\n".$messages."\n\n";
-        $file = __DIR__.'\trace.log';
+        $file = __DIR__.'/trace.log';
         if (filesize($file) > 907200) {
             $fp = fopen($file, "r+");
             ftruncate($fp, 0);
