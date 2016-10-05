@@ -19,6 +19,7 @@ Notes
 - Integration supperted:
 	* Credit card (redirection)
 	* Credit card (Merchant page)
+	* Credit card (Merchant page 2.0)
 	* Installemnts (redirection) 
 	* SADAD 
 	* NAPS 
