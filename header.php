@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Selection Page</title>
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/css/normalize.css">
         <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="assets/css/fontello.css">

@@ -13,28 +13,39 @@ class PayfortIntegration
      * @var string your Merchant Identifier account (mid)
      */
     public $merchantIdentifier = 'MERCHANT_IDENTIFIER';
+    
     /**
      * @var string your access code
      */
     public $accessCode         = 'ACCESS_CODE';
-    /**
-     * @var string sha in passphrase
-     */
-    public $shaIn              = 'SHA_IN_PASSPHRASE';
-    /**
-     * @var string sha out passphrase
-     */
-    public $shaOut             = 'SHA_OUT_PASSPHRASE';
-    /**
-     * @var string hash algorith
-     */
-    public $hashAlgorith       = 'sha256';
     
-    public $command            = 'AUTHORIZATION';
+    /**
+     * @var string SHA Request passphrase
+     */
+    public $SHARequestPhrase   = 'SHA_REQUEST_PASSPHRASE';
+    
+    /**
+     * @var string SHA Response passphrase
+     */
+    public $SHAResponsePhrase = 'SHA_RESPONSE_PASSPHRASE';
+    
+    /**
+     * @var string SHA Type (Hash Algorith)
+     * expected Values ("sha1", "sha256", "sha512")
+     */
+    public $SHAType       = 'sha256';
+    
+    /**
+     * @var string  command
+     * expected Values ("AUTHORIZATION", "PURCHASE")
+     */
+    public $command       = 'AUTHORIZATION';
+    
     /**
      * @var decimal order amount
      */
     public $amount             = 100;
+    
     /**
      * @var string order currency
      */
@@ -44,10 +55,12 @@ class PayfortIntegration
      * @var string item name
      */
     public $itemName           = 'Apple iPhone 6s Plus';
+    
     /**
      * @var string you can change it to your email
      */
     public $customerEmail      = 'test@test.com';
+    
     /**
      * @var boolean for live account change it to false
      */
@@ -57,6 +70,7 @@ class PayfortIntegration
      * change it if the project is not on root folder.
      */
     public $projectUrlPath     = '/payfort-php-sdk'; 
+    
     public function __construct()
     {
         
@@ -64,7 +78,7 @@ class PayfortIntegration
 
     public function processRequest($paymentMethod)
     {
-        if ($paymentMethod == 'cc_merchantpage') {
+        if ($paymentMethod == 'cc_merchantpage' || $paymentMethod == 'cc_merchantpage2') {
             $merchantPageData = $this->getMerchantPageData();
             $postData = $merchantPageData['params'];
             $gatewayUrl = $merchantPageData['url'];
@@ -326,8 +340,6 @@ class PayfortIntegration
     public function merchantPageNotifyFort($fortParams)
     {
         //send host to host
-
-
         if ($this->sandboxMode) {
             $gatewayUrl = $this->gatewaySandboxHost . 'FortAPI/paymentPage';
         }
@@ -366,6 +378,23 @@ class PayfortIntegration
         else {
             $gatewayUrl = $this->gatewayHost . 'FortAPI/paymentApi';
         }
+
+        $array_result = $this->callApi($postData, $gatewayUrl);
+        
+        $debugMsg = "Fort Host2Host Response Parameters \n".print_r($array_result, 1);
+        $this->log($debugMsg);
+        
+        return  $array_result;
+    }
+
+    /**
+     * Send host to host request to the Fort
+     * @param array $postData
+     * @param string $gatewayUrl
+     * @return mixed
+     */
+    public function callApi($postData, $gatewayUrl)
+    {
         //open connection
         $ch = curl_init();
 
@@ -398,15 +427,12 @@ class PayfortIntegration
 
         $array_result = json_decode($response, true);
         
-        $debugMsg = "Fort Host2Host Response Parameters \n".print_r($array_result, 1);
-        $this->log($debugMsg);
-        
         if (!$response || empty($array_result)) {
             return false;
         }
         return $array_result;
     }
-
+    
     /**
      * calculate fort signature
      * @param array $arrData
@@ -422,12 +448,12 @@ class PayfortIntegration
         }
 
         if ($signType == 'request') {
-            $shaString = $this->shaIn . $shaString . $this->shaIn;
+            $shaString = $this->SHARequestPhrase . $shaString . $this->SHARequestPhrase;
         }
         else {
-            $shaString = $this->shaOut . $shaString . $this->shaOut;
+            $shaString = $this->SHAResponsePhrase . $shaString . $this->SHAResponsePhrase;
         }
-        $signature = hash($this->hashAlgorith, $shaString);
+        $signature = hash($this->SHAType, $shaString);
 
         return $signature;
     }
