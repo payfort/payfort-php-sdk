@@ -176,7 +176,7 @@ class PayfortIntegration
 
     public function processResponse()
     {
-        $fortParams = $_REQUEST;
+        $fortParams = array_merge($_GET, $_POST);
         
         $debugMsg = "Fort Redirect Response Parameters \n".print_r($fortParams, 1);
         $this->log($debugMsg);
@@ -234,7 +234,7 @@ class PayfortIntegration
 
     public function processMerchantPageResponse()
     {
-        $fortParams = $_REQUEST;
+        $fortParams = array_merge($_GET, $_POST);
 
         $debugMsg = "Fort Merchant Page Response Parameters \n".print_r($fortParams, 1);
         $this->log($debugMsg);
