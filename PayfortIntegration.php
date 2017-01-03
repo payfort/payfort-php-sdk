@@ -373,12 +373,12 @@ class PayfortIntegration
         $this->log($debugMsg);
         
         if ($this->sandboxMode) {
-            $gatewayUrl = $this->gatewaySandboxHost . 'FortAPI/paymentApi';
+            $gatewayUrl = 'https://sbpaymentservices.payfort.com/FortAPI/paymentApi';
         }
         else {
-            $gatewayUrl = $this->gatewayHost . 'FortAPI/paymentApi';
+            $gatewayUrl = 'https://paymentservices.payfort.com/FortAPI/paymentApi';
         }
-
+        
         $array_result = $this->callApi($postData, $gatewayUrl);
         
         $debugMsg = "Fort Host2Host Response Parameters \n".print_r($array_result, 1);
