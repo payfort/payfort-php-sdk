@@ -141,14 +141,35 @@ $totalAmount = $amount;
                     </form>
                 </div>
             </li>
+            
+            
+            
+            
+            
+            
+            
             <li>
                 <input id="po_installments" type="radio" name="payment_option" value="installments" style="display: none">
                 <label class="payment-option" for="po_installments">
                     <img src="assets/img/installment.png" alt="">
-                    <span class="name"> Pay with installments</span>
+                    <span class="name"> Pay with installments (Redirection)</span>
                     <em class="seperator hidden"></em>
                 </label>
             </li>
+            <li>
+                <input id="po_installments_merchantpage" type="radio" name="payment_option" value="installments_merchantpage" style="display: none">
+                <label class="payment-option" for="po_installments_merchantpage">
+                    <img src="assets/img/installment.png" alt="">
+                    <span class="name"> Pay with installments (Merchant Page)</span>
+                    <em class="seperator hidden"></em>
+                </label>
+            </li>
+            
+            
+            
+            
+            
+            
             <li>
                 <input id="po_naps" type="radio" name="payment_option" value="naps" style="display: none">
                 <label class="payment-option" for="po_naps">
@@ -199,7 +220,7 @@ $totalAmount = $amount;
                         alert('Pelase Select Payment Method!');
                         return;
                     }
-                    if(paymentMethod == 'cc_merchantpage') {
+                    if(paymentMethod == 'cc_merchantpage' || paymentMethod == 'installments_merchantpage') {
                         window.location.href = 'confirm-order.php?payment_method='+paymentMethod;
                     }
                     if(paymentMethod == 'cc_merchantpage2') {

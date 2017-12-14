@@ -47,7 +47,7 @@ $paymentMethod = $_REQUEST['payment_method'];
             <li><?php echo $objFort->getPaymentOptionName($paymentMethod) ?></li>
         </ul>
     </section>
-    <?php if($paymentMethod == 'cc_merchantpage') ://merchant page iframe method ?>
+    <?php if($paymentMethod == 'cc_merchantpage' || $paymentMethod == 'installments_merchantpage') ://merchant page iframe method ?>
         <section class="merchant-page-iframe">
             <?php
                 $merchantPageData = $objFort->getMerchantPageData();
@@ -75,7 +75,7 @@ $paymentMethod = $_REQUEST['payment_method'];
         $(document).ready(function () {
             var paymentMethod = '<?php echo $paymentMethod?>';
             //load merchant page iframe
-            if(paymentMethod == 'cc_merchantpage') {
+            if(paymentMethod == 'cc_merchantpage' || paymentMethod == 'installments_merchantpage') {
                 getPaymentPage(paymentMethod);
             }
         });

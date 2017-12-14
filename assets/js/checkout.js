@@ -12,7 +12,7 @@ function getPaymentPage(paymentMethod) {
        success: function (response) {
             if (response.form) {
                 $('body').append(response.form);
-                if(response.paymentMethod == 'cc_merchantpage') {
+                if(response.paymentMethod == 'cc_merchantpage' || response.paymentMethod == 'installments_merchantpage') {
                     showMerchantPage(response.url);
                 }
                 else if(response.paymentMethod == 'cc_merchantpage2') {
@@ -43,7 +43,7 @@ function showMerchantPage(merchantPageUrl) {
     if($("#payfort_merchant_page").size()) {
         $( "#payfort_merchant_page" ).remove();
     }
-    $('<iframe name="payfort_merchant_page" id="payfort_merchant_page" height="430px" width="100%" frameborder="0" scrolling="no"></iframe>').appendTo('#pf_iframe_content');
+    $('<iframe name="payfort_merchant_page" id="payfort_merchant_page" height="630px" width="100%" frameborder="0" scrolling="no"></iframe>').appendTo('#pf_iframe_content');
     
     $( "#payfort_merchant_page" ).attr("src", merchantPageUrl);
     $( "#payfort_payment_form" ).attr("action", merchantPageUrl);
