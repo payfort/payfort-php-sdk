@@ -7,7 +7,7 @@
         </ul>
     </section>
     <section class="confirmation">
-        <label class="success" for="" >Susccess</label>
+        <label class="success" for="" >Success</label>
         <!-- <label class="failed" for="" >Failed</label> -->
         <small>Thank You For Your Order</small>
     </section>

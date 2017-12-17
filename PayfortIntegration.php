@@ -78,8 +78,8 @@ class PayfortIntegration
 
     public function processRequest($paymentMethod)
     {
-        if ($paymentMethod == 'cc_merchantpage' || $paymentMethod == 'cc_merchantpage2') {
-            $merchantPageData = $this->getMerchantPageData();
+        if ($paymentMethod == 'cc_merchantpage' || $paymentMethod == 'cc_merchantpage2' || $paymentMethod == 'installments_merchantpage') {
+            $merchantPageData = $this->getMerchantPageData($paymentMethod);
             $postData = $merchantPageData['params'];
             $gatewayUrl = $merchantPageData['url'];
         }
@@ -135,7 +135,7 @@ class PayfortIntegration
         return array('url' => $gatewayUrl, 'params' => $postData);
     }
     
-    public function getMerchantPageData()
+    public function getMerchantPageData($paymentMethod)
     {
         $merchantReference = $this->generateMerchantReference();
         $returnUrl = $this->getUrl('route.php?r=merchantPageReturn');
@@ -150,6 +150,14 @@ class PayfortIntegration
             'language'            => $this->language,
             'return_url'          => $returnUrl,
         );
+        
+        if($paymentMethod == 'installments_merchantpage'){
+                $iframeParams['currency']       = strtoupper($this->currency);
+                $iframeParams['installments']   = 'STANDALONE';
+                $iframeParams['amount']         = $this->convertFortAmount($this->amount, $this->currency);
+        }
+        
+        
         $iframeParams['signature'] = $this->calculateSignature($iframeParams, 'request');
 
         if ($this->sandboxMode) {
@@ -361,6 +369,14 @@ class PayfortIntegration
             'language'            => $this->language,
             'return_url'          => $this->getUrl('route.php?r=processResponse'),
         );
+        
+        if(!empty($merchantPageData['paymentMethod']) && $merchantPageData['paymentMethod'] == 'installments_merchantpage'){
+                $postData['installments']            = 'YES';
+                $postData['plan_code']               = $fortParams['plan_code'];
+                $postData['issuer_code']             = $fortParams['issuer_code'];
+                $postData['command']                 = 'PURCHASE';
+        }
+        
         if(isset($fortParams['3ds']) && $fortParams['3ds'] == 'no') {
             $postData['check_3ds'] = 'NO';
         }
@@ -542,6 +558,7 @@ class PayfortIntegration
         switch($po) {
             case 'creditcard' : return 'Credit Cards';
             case 'cc_merchantpage' : return 'Credit Cards (Merchant Page)';
+            case 'installments_merchantpage' : return 'Installments (Merchant Page)';
             case 'installments' : return 'Installments';
             case 'sadad' : return 'SADAD';
             case 'naps' : return 'NAPS';
