@@ -79,7 +79,7 @@ class PayfortIntegration
     public function processRequest($paymentMethod)
     {
         if ($paymentMethod == 'cc_merchantpage' || $paymentMethod == 'cc_merchantpage2' || $paymentMethod == 'installments_merchantpage') {
-            $merchantPageData = $this->getMerchantPageData();
+            $merchantPageData = $this->getMerchantPageData($paymentMethod);
             $postData = $merchantPageData['params'];
             $gatewayUrl = $merchantPageData['url'];
         }
@@ -135,10 +135,8 @@ class PayfortIntegration
         return array('url' => $gatewayUrl, 'params' => $postData);
     }
     
-    public function getMerchantPageData()
+    public function getMerchantPageData($paymentMethod)
     {
-        $merchantPageData = array_merge($_GET, $_POST);
-
         $merchantReference = $this->generateMerchantReference();
         $returnUrl = $this->getUrl('route.php?r=merchantPageReturn');
         if(isset($_GET['3ds']) && $_GET['3ds'] == 'no') {
@@ -153,7 +151,7 @@ class PayfortIntegration
             'return_url'          => $returnUrl,
         );
         
-        if(!empty($merchantPageData['paymentMethod']) && $merchantPageData['paymentMethod'] == 'installments_merchantpage'){
+        if($paymentMethod == 'installments_merchantpage'){
                 $iframeParams['currency']       = strtoupper($this->currency);
                 $iframeParams['installments']   = 'STANDALONE';
                 $iframeParams['amount']         = $this->convertFortAmount($this->amount, $this->currency);

@@ -50,7 +50,7 @@ $paymentMethod = $_REQUEST['payment_method'];
     <?php if($paymentMethod == 'cc_merchantpage' || $paymentMethod == 'installments_merchantpage') ://merchant page iframe method ?>
         <section class="merchant-page-iframe">
             <?php
-                $merchantPageData = $objFort->getMerchantPageData();
+                $merchantPageData = $objFort->getMerchantPageData($paymentMethod);
                 $postData = $merchantPageData['params'];
                 $gatewayUrl = $merchantPageData['url'];
             ?>
