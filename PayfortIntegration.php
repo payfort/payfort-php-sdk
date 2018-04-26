@@ -528,7 +528,7 @@ class PayfortIntegration
 
     public function generateMerchantReference()
     {
-        return rand(0, 9999999999);
+        return rand(0, getrandmax());
     }
     
     /**
