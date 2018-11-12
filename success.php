@@ -13,7 +13,7 @@
     </section>
 
     <section class="order-confirmation">
-        <label for="" class="lead">Order ID : <?php echo $_REQUEST['fort_id']?></label>
+        <label for="" class="lead">FORT ID : fort_id </label>
     </section>
 
     <div class="h-seperator"></div>
