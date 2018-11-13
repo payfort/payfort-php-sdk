@@ -30,13 +30,6 @@
                     Parameter Value
                 </th>
             </tr>
-        <?php
-           foreach($_REQUEST as $k => $v) {
-               echo "<tr>";
-               echo "<td>$k</td><td>$v</td>";
-               echo "</tr>";
-           } 
-        ?>
         </table>
     </section>
     
