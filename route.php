@@ -11,7 +11,7 @@ if(!isset($_REQUEST['r'])) {
 require_once 'PayfortIntegration.php';
 $objFort = new PayfortIntegration();
 if($_REQUEST['r'] == 'getPaymentPage') {
-    $objFort->processRequest($_REQUEST['paymentMethod']);
+    $objFort->processRequest(htmlspecialchars($_REQUEST['paymentMethod'], ENT_QUOTES, 'UTF-8'));
 }
 elseif($_REQUEST['r'] == 'merchantPageReturn') {
     $objFort->processMerchantPageResponse();
