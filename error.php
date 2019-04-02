@@ -14,14 +14,14 @@
             
             <div class="h-seperator"></div>
             
-            <?php if(isset($_REQUEST['error_msg'])) : ?>
+            <?php if(isset($_REQUEST['error_msg'])) { ?>
             <section>
-                <div class="error">error message : error_msg</div>
+                <div class="error">error message : error_msg </div>
             </section>
             <div class="h-seperator"></div>
             
 
-            <div class="h-seperator"></div>
+            <?php } ?>
 
             <section class="actions">
                 <a class="btm" href="index.php">New Order</a>
