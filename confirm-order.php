@@ -24,7 +24,7 @@ $paymentMethod = $_REQUEST['payment_method'];
                 <i class="icon icon-bag"></i>
                 <label class="lead" for="">Your Order</label>
             </span>
-            <li><?php echo $objFort->itemName ?></li>
+            <li>order description</li>
             <!-- <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ex magni delectus aliquam debitis</li> -->
         </ul>
         <ul>
