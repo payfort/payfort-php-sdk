@@ -26,4 +26,5 @@
             <section class="actions">
                 <a class="btm" href="index.php">New Order</a>
             </section>
+			<?php endif; ?>
 <?php include('footer.php') ?>
