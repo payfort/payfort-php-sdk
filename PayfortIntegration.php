@@ -31,7 +31,7 @@ class PayfortIntegration
     
     /**
      * @var string SHA Type (Hash Algorith)
-     * expected Values ("sha1", "sha256", "sha512")
+     * expected Values ("sha1", "sha256", "sha512", "hmac256", "hmac512")
      */
     public $SHAType       = 'sha256';
     
@@ -469,8 +469,40 @@ class PayfortIntegration
         else {
             $shaString = $this->SHAResponsePhrase . $shaString . $this->SHAResponsePhrase;
         }
+        //calculate hmac 
+        if (in_array($this->SHAType, array('hmac256', 'hmac512'))) {
+            $signature = $this->calculateHmac($this->SHAType, $shaString, $signType, $this->SHARequestPhrase, $this->SHAResponsePhrase);
+            return $signature;
+        }
+        
         $signature = hash($this->SHAType, $shaString);
 
+        return $signature;
+    }
+    
+     /**
+     * calculate HMAC
+     * 
+     * @param type $shaType
+     * @param type $shaString
+     * @param type $signType request or response
+     * @param type $shaInPassPhrase  request pass phrase
+     * @param type $shaOutPassPhrase response pass phrase
+     */
+    public function calculateHmac($shaType, $shaString, $signType, $shaInPassPhrase, $shaOutPassPhrase)
+    {
+        if ($signType == 'request') {
+            $hmacSecretkey = $shaInPassPhrase;
+        } else {
+            $hmacSecretkey = $shaOutPassPhrase;
+        }
+        
+        if ($shaType == 'hmac256') {
+            $signature = hash_hmac('sha256', $shaString, $hmacSecretkey);
+        } else {
+            $signature = hash_hmac('sha512', $shaString, $hmacSecretkey);
+        }
+        
         return $signature;
     }
 
