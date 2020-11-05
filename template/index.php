@@ -195,7 +195,7 @@ $totalAmount = $amount;
         <a class="back" href="#">Back</a>
         <a class="continue" id="btn_continue" href="javascript:void(0)">Continue</a>
     </section>
-    <script type="text/javascript" src="vendors/jquery.min.js"></script>
+    <script type="text/javascript" src="../vendors/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/jquery.creditCardValidator.js"></script>
         <script type="text/javascript" src="assets/js/checkout.js"></script>
         <script type="text/javascript">

@@ -69,7 +69,7 @@ $paymentMethod = $_REQUEST['payment_method'];
     <section class="actions">
         <a class="back" id="btn_back" href="index.php">Back</a>
     </section>
-    <script type="text/javascript" src="vendors/jquery.min.js"></script>
+    <script type="text/javascript" src="../vendors/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/checkout.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
