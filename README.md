@@ -13,6 +13,8 @@ Install
 Notes
 =====
 
+- You may use the project under the template folder to test using the PayfortIntegration.php
+- You need to implement the Javascript functionalities in checkout.js based on what payment method you wish to use 
 - trace.log folder must have read/write permission
 - All requests and responses are logged to trace.log file
 - you can use theme in the SDK or customize it , you can also create your own design by using the SDK functions directly 
@@ -23,5 +25,4 @@ Notes
 	* Installemnts (redirection) 
 	* SADAD 
 	* NAPS 
-
 	
