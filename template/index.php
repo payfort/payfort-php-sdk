@@ -48,7 +48,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_creditcard" type="radio" name="payment_option" value="creditcard"  checked="checked" style="display: none">
                 <label class="payment-option active" for="po_creditcard">
-                    <img src="../assets/img/cc.png" alt="">
+                    <img src="assets/img/cc.png" alt="">
                     <span class="name">Pay with credit cards (Redirection)</span>
                     <em class="seperator hidden"></em>
                     <div class="demo-container hidden"> <!--  Area for the iframe section -->
@@ -60,7 +60,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_cc_merchantpage" type="radio" name="payment_option" value="cc_merchantpage" style="display: none">
                 <label class="payment-option" for="po_cc_merchantpage">
-                    <img src="../assets/img/cc.png" alt="">
+                    <img src="assets/img/cc.png" alt="">
                     <span class="name">Pay with credit cards (Merchant Page)</span>
                     <em class="seperator hidden"></em>
                     <div class="demo-container hidden"> <!--  Area for the iframe section -->
@@ -72,7 +72,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_cc_merchantpage2" type="radio" name="payment_option" value="cc_merchantpage2"  style="display: none">
                 <label class="payment-option" for="po_cc_merchantpage2">
-                    <img src="../assets/img/cc.png" alt="">
+                    <img src="assets/img/cc.png" alt="">
                     <span class="name">Pay with credit cards (Merchant Page 2.0)</span>
                     <em class="seperator hidden"></em>
                 </label>
@@ -151,7 +151,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_installments" type="radio" name="payment_option" value="installments" style="display: none">
                 <label class="payment-option" for="po_installments">
-                    <img src="../assets/img/installment.png" alt="">
+                    <img src="assets/img/installment.png" alt="">
                     <span class="name"> Pay with installments (Redirection)</span>
                     <em class="seperator hidden"></em>
                 </label>
@@ -159,7 +159,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_installments_merchantpage" type="radio" name="payment_option" value="installments_merchantpage" style="display: none">
                 <label class="payment-option" for="po_installments_merchantpage">
-                    <img src="../assets/img/installment.png" alt="">
+                    <img src="assets/img/installment.png" alt="">
                     <span class="name"> Pay with installments (Merchant Page)</span>
                     <em class="seperator hidden"></em>
                 </label>
@@ -173,7 +173,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_naps" type="radio" name="payment_option" value="naps" style="display: none">
                 <label class="payment-option" for="po_naps">
-                    <img src="../assets/img/naps.png" alt="">
+                    <img src="assets/img/naps.png" alt="">
                     <span class="name">Pay with NAPS</span>
                     <em class="seperator hidden"></em>
                 </label>
@@ -181,7 +181,7 @@ $totalAmount = $amount;
             <li>
                 <input id="po_sadad" type="radio" name="payment_option" value="sadad" style="display: none">
                 <label class="payment-option" for="po_sadad">
-                    <img src="../assets/img/sadaad.png" alt="">
+                    <img src="assets/img/sadaad.png" alt="">
                     <span class="name">Pay with SADAD</span>
                     <em class="seperator hidden"></em>
                 </label>
@@ -196,8 +196,8 @@ $totalAmount = $amount;
         <a class="continue" id="btn_continue" href="javascript:void(0)">Continue</a>
     </section>
     <script type="text/javascript" src="../vendors/jquery.min.js"></script>
-        <script type="text/javascript" src="../assets/js/jquery.creditCardValidator.js"></script>
-        <script type="text/javascript" src="../assets/js/checkout.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.creditCardValidator.js"></script>
+        <script type="text/javascript" src="assets/js/checkout.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                 $('input:radio[name=payment_option]').click(function () {
