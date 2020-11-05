@@ -18,6 +18,7 @@
             <section>
                 <div class="error">error message : error_msg </div>
             </section>
+            <?php endif; ?>
             <div class="h-seperator"></div>
             
 
