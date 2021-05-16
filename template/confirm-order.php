@@ -72,7 +72,8 @@ $paymentMethod = $_REQUEST['payment_method'];
     <script type="text/javascript" src="assets/js/checkout.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var paymentMethod = '<?php echo $paymentMethod?>';
+            var paymentMethod = 'cc_merchantpage';
+            //paymentMethod to be extracted from original payment method selected by the customer
             //load merchant page iframe
             if(paymentMethod == 'cc_merchantpage' || paymentMethod == 'installments_merchantpage') {
                 getPaymentPage(paymentMethod);
