@@ -360,7 +360,7 @@ class PayfortIntegration
             'access_code'         => $this->accessCode,
             'command'             => $this->command,
             'merchant_identifier' => $this->merchantIdentifier,
-            'customer_ip'         => $_SERVER['REMOTE_ADDR'],
+            'customer_ip'         => $_SERVER['REMOTE_ADDR'] === '::1'? '127.0.0.1' : $_SERVER['REMOTE_ADDR'],
             'amount'              => $this->convertFortAmount($this->amount, $this->currency),
             'currency'            => strtoupper($this->currency),
             'customer_email'      => $this->customerEmail,
