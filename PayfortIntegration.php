@@ -70,6 +70,11 @@ class PayfortIntegration
      * change it if the project is not on root folder.
      */
     public $projectUrlPath     = '/payfort-php-sdk'; 
+
+    /**
+     * @var array for the hostname with scheme of the application for url sanization
+     */
+    private $hostlist = array('https://host:port');
     
     public function __construct()
     {
@@ -89,6 +94,7 @@ class PayfortIntegration
             $gatewayUrl = $data['url'];
         }
         $form = $this->getPaymentForm($gatewayUrl, $postData);
+        header("Content-Type", "text/json");
         echo json_encode(array('form' => $form, 'url' => $gatewayUrl, 'params' => $postData, 'paymentMethod' => $paymentMethod));
         exit;
     }
@@ -521,7 +527,16 @@ class PayfortIntegration
     public function getUrl($path)
     {
         $scheme = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-        $url = $scheme . $_SERVER['HTTP_HOST'] . $this->projectUrlPath .'/'. $path;
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $host = $_SERVER['HTTP_HOST'];
+            $hostWithScheme = $scheme . $host;
+            if (filter_var($hostWithScheme, FILTER_VALIDATE_URL) && in_array($hostWithScheme, $this->hostlist)) {
+                $hostWithScheme = filter_var($hostWithScheme, FILTER_SANITIZE_URL);
+            } else {
+                throw new Exception("Incorrect host value");
+            }
+        }
+        $url = $hostWithScheme. $this->projectUrlPath .'/'. $path;
         return $url;
     }
 
