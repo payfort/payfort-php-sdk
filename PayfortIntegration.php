@@ -94,6 +94,7 @@ class PayfortIntegration
             $gatewayUrl = $data['url'];
         }
         $form = $this->getPaymentForm($gatewayUrl, $postData);
+        header("Content-Type", "text/json");
         echo json_encode(array('form' => $form, 'url' => $gatewayUrl, 'params' => $postData, 'paymentMethod' => $paymentMethod));
         exit;
     }
