@@ -1,0 +1,41 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.card-row {
+    position: relative;
+}
+
+img.card-icon:not(.active) {
+    display: none;
+}
+
+img.card-icon.active {
+    right: 5px;
+    top: 7px;
+    width: auto;
+    height: 20px;
+}
+
+ul.token-box .card-icon {
+    margin: 0 10px 0 2px !important;
+    width: auto;
+    object-fit: contain;
+    height: auto;
+    float: left !important;
+}

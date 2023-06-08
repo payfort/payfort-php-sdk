@@ -1,0 +1,29 @@
+<div class="installment_plans_container">
+    <div class="total_amount">
+        <h2>Total amount: {total_amount}</h2>
+    </div>
+
+    <div class="installment_plans">
+        {installment_plans}
+        <br />
+    </div>
+</div>
+
+<form id="installments_custom_checkout" class="aps_hosted_form" action="{action_url}" method="POST">
+    {hidden_inputs}
+    <div class="container">
+        <input type="text" name="card_number" placeholder="Card number" />
+    </div>
+    <div class="container">
+        <input type="text" name="expiry_date" placeholder="Expiry date(YY/MM)" />
+    </div>
+    <div class="container">
+        <input type="text" name="card_security_code" placeholder="CVV" />
+    </div>
+    <div class="container">
+        <input type="text" name="card_holder_name" placeholder="Card holder name" />
+    </div>
+    <br />
+    <button type="submit">{order_now_button_text}</button>
+</form>
+<script src="https://prod-clientscdn.payfort.com/js/aps.validation.js"></script>

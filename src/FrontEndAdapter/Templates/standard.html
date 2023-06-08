@@ -1,0 +1,20 @@
+<form name="aps_form" class="{aps_form_class}" action="{action_url}" method="POST" target="standard_checkout_iframe"
+      onsubmit="displayMainIframe()">
+    {hidden_inputs}
+    <button type="submit" class="{aps_submit_class}">{order_now_button_text}</button>
+</form>
+<div name="standard_checkout_modal" class="aps_modal {aps_modal_class}">
+    <iframe name="standard_checkout_iframe" class="aps_iframe {aps_iframe_class}" sandbox="allow-scripts allow-top-navigation allow-forms allow-same-origin"></iframe>
+</div>
+<div id="standard_redirect_message" style="display: none;"></div>
+<script type="text/javascript">
+    function displayMainIframe() {
+        const modal = document.querySelector('div[name="standard_checkout_modal"]');
+        modal.style.display = 'block';
+
+        const iframe = document.querySelector('iframe[name="standard_checkout_iframe"]');
+        iframe.onload = function () {
+            iframe.style.display = 'block';
+        }
+    }
+</script>
