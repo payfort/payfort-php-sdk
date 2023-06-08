@@ -1,0 +1,196 @@
+(function($) {
+    'use strict';
+
+    /**
+     * All the code for your checkout functionality placed here.
+     * should reside in this file.
+     */
+    $(document).ready(function() {
+        if (window.ApplePaySession) {
+            if (ApplePaySession.canMakePayments) {
+                setTimeout(function() {
+                    $('.apple_pay_option').removeClass('hide-me')
+                }, 2000);
+            }
+        }
+    });
+
+    function initApplePayment(
+        paymentData, supportedNetworks, supportedCountries,
+        currencyCode, countryCode, displayName, sdkValidationUrl,
+        sdkCommandUrl, evt
+    )
+    {
+        let cartArray = [];
+
+        cartArray.push({
+            type: 'final',
+            label: 'Subtotal',
+            amount: parseFloat(paymentData.subtotal).toFixed(2)
+        });
+        cartArray.push({
+            type: 'final',
+            label: 'Shipping fees',
+            amount: parseFloat(paymentData.shipping).toFixed(2)
+        });
+        if (parseFloat(paymentData.discount) >= 1) {
+            cartArray.push({
+                type: 'final',
+                label: 'Discount',
+                amount: parseFloat(paymentData.discount).toFixed(2)
+            });
+        }
+        cartArray.push({
+            type: 'final',
+            label: 'Tax',
+            amount: parseFloat(paymentData.tax).toFixed(2)
+        });
+
+        let paymentRequest = {
+            currencyCode: currencyCode,
+            countryCode: countryCode,
+            lineItems: cartArray,
+            total: {
+                label: displayName,
+                amount: paymentData.amount.toFixed(2)
+            },
+            supportedNetworks: supportedNetworks,
+            merchantCapabilities: ['supports3DS']
+        };
+
+        if (supportedCountries) {
+            paymentRequest.supported_countries = supportedCountries;
+        }
+
+        // double check if all is ok
+        if (window.ApplePaySession) {
+            let session = new ApplePaySession(5, paymentRequest);
+
+            // Merchant Validation
+            session.onvalidatemerchant = function (event) {
+                let promise = performValidation(event.validationURL);
+                promise.then(
+                    function (merchantSession) {
+                        session.completeMerchantValidation(merchantSession);
+                    }
+                );
+            }
+
+            session.onpaymentauthorized = function(event) {
+                let promise = sendPaymentToken(event.payment.token);
+                promise.then(
+                    function(success) {
+                        let status;
+                        if (success) {
+                            document.getElementById("applePay").style.display = "none";
+                            status = ApplePaySession.STATUS_SUCCESS;
+                            sendPaymentToAps(event.payment.token);
+                        } else {
+                            status = ApplePaySession.STATUS_FAILURE;
+                        }
+
+                        session.completePayment(status);
+                    }
+                );
+            }
+
+            session.oncancel = function(event) {
+                //collect the data if you want to track the ApplePay events
+            }
+
+            session.begin();
+        } else {
+            $(evt.target).prop('disabled', true);
+            $(evt.target).html('Apple Pay is not available in your browser');
+        }
+
+        function performValidation(appleUrl) {
+            return new Promise(
+                function(resolve, reject) {
+                    $.ajax({
+                        url: sdkValidationUrl,
+                        type: 'POST',
+                        data: {
+                            url: appleUrl
+                        },
+                        success: function(data) {
+                            if (!data) {
+                                reject;
+                            } else {
+                                // data = JSON.parse( data )
+                                resolve(data);
+                            }
+                        },
+                        error: function() {
+                            reject;
+                        }
+                    })
+                }
+            );
+        }
+
+        function sendPaymentToken(paymentToken) {
+            return new Promise(
+                function(resolve, reject) {
+                    resolve(true);
+                }
+            );
+        }
+
+        function sendPaymentToAps(inputData) {
+            $.ajax({
+                url: sdkCommandUrl,
+                type: 'POST',
+                data: {"data":inputData},
+                success: function(data) {
+                    if (!data) {
+                        purchaseDoneActions(true, 'payment done with no message');
+
+                        reject;
+                    } else {
+                        purchaseDoneActions(true, data.message);
+                        // data = JSON.parse(data);
+                        resolve(data);
+                    }
+                },
+                error: function(error) {
+                    purchaseDoneActions(false, error.responseJSON.message);
+
+                    reject;
+                }
+            })
+        }
+
+        function purchaseDoneActions(isSuccess, message) {
+            let applePayButton = $('#applePay');
+            if (isSuccess) {
+                // purchase is a success, we hide the pay button and show a success message
+                applePayButton.hide();
+            }
+
+            applePayButton.parent().append(message);
+        }
+
+    }
+
+    $(document.body).on(
+        'click',
+        '#applePay',
+        function(evt) {
+            initApplePayment(
+                appleInitData.paymentData,
+                appleInitData.supportedNetworks,
+                appleInitData.supportedCountries,
+                appleInitData.currencyCode,
+                appleInitData.countryCode,
+                appleInitData.displayName,
+                appleInitData.sdkValidationUrl,
+                appleInitData.sdkCommandUrl,
+                evt
+            );
+        }
+    );
+
+    let appleInitData = JSON.parse('[apple_init_data]');
+
+})(jQuery);

@@ -1,0 +1,24 @@
+.DS_Store
+/vendor
+.phpunit.result.cache
+.phpunit.cache
+/example/tmp/aps.log
+/example/merchant_config.php
+/example/cert/
+/tests/helper.php
+composer.lock
+coverage.xml
+report.xml
+sonar-project.properties
+.gitlab-ci.yml
+.scannerwork
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bkp
