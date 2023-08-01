@@ -41,6 +41,9 @@ following method. If you want integration with Apple Pay all
 the properties that contains "Apple\_" must be added, otherwise those
 properties are not required.
 
+<details><summary>Properties sample</summary>
+
+
 ```php
 php  
 return [     'merchant_identifier'       => '**********',    
@@ -68,6 +71,8 @@ return [     'merchant_identifier'       => '**********',    
 
 ```
 
+
+</details>
 
 
 All the merchant configuration properties
@@ -98,7 +103,8 @@ return  [
 ```
 You can see below how the credit card redirect payment method issued. Payment data is set with the payment details, then set the
 authorization/purchase command, set your callback URL and render the information needed for your client page.
-
+<details><summary>Sample</summary>
+   
 ```<div>
     <?php
     try {
@@ -130,6 +136,100 @@ authorization/purchase command, set your callback URL and render the information
     ?>
 
 ```
+</details>
+
+
+## Standard Checkout
+
+The class for Standard Checkout payment option is called "CCStandard".
+This class can be used for Authorization or for Purchase command. For
+example, see the code below.
+
+<details><summary>Sample</summary>
+
+```   
+<div>
+    <?php
+    try {
+        echo (new CCStandard())
+            ->setPaymentData($paymentData)
+            ->useAuthorizationCommand()
+            ->setCallbackUrl('callback-url.php')
+            ->render([
+                    'button_text'   => 'Place order with Authorization'
+            ]);
+    } catch (APSException $e) {
+        echo 'SETUP ERROR: ' . $e->getMessage();
+    }
+    ?>
+</div>
+<div>
+    <?php
+    try {
+        echo (new CCStandard())
+            ->setPaymentData($paymentData)
+            ->usePurchaseCommand()
+            ->setCallbackUrl('callback-url.php')
+            ->render([
+                    'button_text'   => 'Place order with Purchase'
+            ]);
+    } catch (APSException $e) {
+        echo 'SETUP ERROR: ' . $e->getMessage();
+    }
+    ?>
+</div>
+
+```
+</details>
+
+
+
+
+
+## Custom Checkout
+
+The class for Custom Checkout payment option is called "CCCustom". This
+class can be used for Authorization or for Purchase command. For
+example, see the code below.
+
+<details><summary>Sample</summary>
+
+```
+<div>
+    <?php
+    try {
+        echo (new CCCustom())
+            ->setPaymentData($paymentData)
+            ->useAuthorizationCommand()
+            ->setCallbackUrl('callback-url.php')
+            ->render([
+                    'button_text'   => 'Place order with Authorization'
+            ]);
+    } catch (APSException $e) {
+        echo 'SETUP ERROR: ' . $e->getMessage();
+    }
+    ?>
+</div>
+<div>
+    <?php
+    try {
+        echo (new CCCustom())
+            ->setPaymentData($paymentData)
+            ->usePurchaseCommand()
+            ->setCallbackUrl('callback-url.php')
+            ->render([
+                    'button_text'   => 'Place order with Purchase'
+            ]);
+    } catch (APSException $e) {
+        echo 'SETUP ERROR: ' . $e->getMessage();
+    }
+    ?>
+</div>
+
+
+```
+</details>
+
 
 ## Changelog
 
