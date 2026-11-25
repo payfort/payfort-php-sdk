@@ -72,6 +72,44 @@ class Secure3dsModalTest extends APSTestCase
     }
 
     /**
+     * The 3DS frame must fill the frame/page it is rendered in. Without explicit
+     * sizing browsers fall back to the 300x150 iframe default, which leaves the
+     * issuer's OTP form cut off. The rules use `!important` so merchant class
+     * rules (e.g. the old sample `.aps_3ds_iframe { width: 300px; height: 150px; }`)
+     * cannot shrink it again.
+     *
+     * @test
+     * @covers \AmazonPaymentServicesSdk\FrontEndAdapter\Payments\Secure3dsModal::render
+     *
+     * @return void
+     * @throws APSException
+     */
+    public function testRenderFillsContainingFrame(): void
+    {
+        APSMerchant::setMerchantParams($this->merchantConfig);
+
+        $output = (new Secure3dsModal())->render(['3ds_url' => 'https://example.com/3ds?token=abc123']);
+
+        $this->assertMatchesRegularExpression(
+            '/div\[name="standard_3ds_modal"\]\.aps_3ds_modal \{[^}]*position: fixed !important;'
+            . '[^}]*width: 100% !important;[^}]*height: 100% !important;/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/iframe\[name="standard_3ds_iframe"\]\.aps_3ds_iframe \{[^}]*width: 100% !important;'
+            . '[^}]*height: 100% !important;[^}]*border: 0 !important;/',
+            $output
+        );
+        // the elements the rules target are present
+        $this->assertStringContainsString('<div name="standard_3ds_modal" class="aps_3ds_modal">', $output);
+        $this->assertStringContainsString('<iframe name="standard_3ds_iframe" class="aps_3ds_iframe"', $output);
+        $this->assertStringContainsString('src="https://example.com/3ds?token=abc123"', $output);
+        // no fixed small size
+        $this->assertStringNotContainsString('300px', $output);
+        $this->assertStringNotContainsString('150px', $output);
+    }
+
+    /**
      * A well-formed http URL must be preserved verbatim inside src="...".
      *
      * @test

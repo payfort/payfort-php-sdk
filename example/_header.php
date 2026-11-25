@@ -53,16 +53,19 @@
             display: none;
         }
 
+        /* 3DS challenge: fill the whole frame/page it is rendered in */
         .aps_3ds_iframe {
-            width: 300px;
-            height: 150px;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
         .aps_3ds_modal {
-            width: 300px;
-            height: 150px;
-            position: absolute;
-            top: 20px;
-            left: calc(50% - 150px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: white;
         }
 

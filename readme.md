@@ -231,10 +231,36 @@ example, see the code below.
 </details>
 
 
+## 3-D Secure (3DS) in the Standard / Custom Checkout
+
+With `3ds_modal => true`, the response handler on your callback URL returns the HTML of
+the 3DS frame. Print it as the response of your callback page (`onHtml`).
+
+* The 3DS frame fills the whole page or frame it is printed in, so the issuer's OTP page
+  is fully visible. It cannot be resized with the `aps_3ds_modal` / `aps_3ds_iframe` classes.
+* With the **Standard Checkout** (`CCStandard`), your callback page runs inside the card
+  iframe, so the 3DS frame is as large as that iframe. Size the card modal with the
+  `aps_modal` / `aps_iframe` CSS classes so that the issuer pages fit.
+
+After 3DS, your callback page and the success or failure page it redirects to are loaded
+inside the checkout iframes. They are two levels deep with the Standard Checkout. These
+iframes are sandboxed, and a sandboxed frame may only navigate the **top** window. So break
+out with `window.top`, not `window.parent`:
+
+```html
+<script>
+    if (window.top !== window.self) {
+        window.top.location.href = window.location.href;
+    }
+</script>
+```
+
+
 ## Changelog
 
 | Plugin Version | Release Notes |
 | :---: | :--- |
+| Unreleased | * 3DS modal fills the page/iframe it is rendered in (was the 300×150 browser default) <br/> * Sample app: success/failure pages break out of the checkout iframes with `window.top` (the `window.parent` breakout is blocked in the sandboxed 3DS iframe) |
 | 2.0.0 |   * Integrated checkout experience options: Redirection, Merchant Page, Hosted Merchant Page, Apple Pay, Installments, Recurring, MOTO, Trusted <br/> * Partial/Full Refund, Single/Multiple Capture and Void events <br/> * Signature calculation and validation <br/> * Check Status as a function <br/> Feedback notification handling| 
 
 ## API Documentation

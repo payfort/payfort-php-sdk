@@ -20,8 +20,10 @@ include '_header.php';
     <div>Response message: <?php echo $paymentResponse['response_message'] ?? ''; ?></div>
 </div>
 <script type="text/javascript">
-    if (window.parent && window.parent.location && window.parent.location !== window.location) {
-        // redirects the main page to the success page
-        window.parent.location = window.location;
+    // If this page was loaded inside the checkout / 3DS iframes, show it in the main page.
+    // Use window.top: from the nested 3DS iframe, window.parent is the (sandboxed) card
+    // iframe, and sandboxed frames may only navigate the top window, not other ancestors.
+    if (window.top !== window.self) {
+        window.top.location.href = window.location.href;
     }
 </script>
